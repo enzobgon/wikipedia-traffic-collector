@@ -78,8 +78,8 @@ sudo python3 wikipedia_traffic_collector.py [OPTIONS]
 | Flag | Description |
 |------|------------|
 | `-i`, `--interface` | Network interface to sniff (e.g., enp0s8) |
-| `-n`, `--cycles` | Number of capture cycles |
-| `-a`, `--actions` | Number of random Wikipedia pages per cycle |
+| `-c`, `--cycles` | Number of capture cycles |
+| `-p`, `--pages` | Number of random Wikipedia pages per cycle |
 | `--filter` | BPF filter (default: `udp port 1194`) |
 | `--headless` | Run browser without GUI |
 | `--outdir` | Output directory for PCAP files |
@@ -104,7 +104,7 @@ sudo python3 wikipedia_traffic_collector.py [OPTIONS]
 Run a single cycle with 10 pages:
 
 ```bash
-sudo python3 wikipedia_traffic_collector.py -i enp0s8 -n 1 -a 10
+sudo python3 wikipedia_traffic_collector.py -i enp0s8 -c 1 -p 10
 ```
 
 This configuration:
@@ -122,8 +122,8 @@ This configuration:
 ```bash
 sudo python3 wikipedia_traffic_collector.py \
     -i enp0s8 \
-    -n 3 \
-    -a 15 \
+    -c 3 \
+    -p 15 \
     --read-min 5 --read-max 12 \
     --scrolls-min 2 --scrolls-max 5 \
     --scroll-px-min 400 --scroll-px-max 1000 \
@@ -153,7 +153,6 @@ For reproducible datasets:
 - Keep behavior parameters constant across runs.
 - Vary only one parameter at a time when conducting controlled experiments.
 - Document CLI parameters used for each dataset.
-
 
 ---
 
