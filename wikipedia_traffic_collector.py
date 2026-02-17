@@ -127,15 +127,15 @@ def click_random_internal_link(driver: webdriver.Chrome, max_tries: int = 2) -> 
     return False
 
 
-def simulate_wikipedia(actions: int, behavior: Behavior, headless: bool, chromedriver_path: Optional[str]) -> None:
+def simulate_wikipedia(pages: int, behavior: Behavior, headless: bool, chromedriver_path: Optional[str]) -> None:
 
     # I'm using the official random generation page from Wikipedia web site (in portuguese-br).
     random_url = "https://pt.wikipedia.org/wiki/Especial:Aleatória"
     driver = build_driver(headless=headless, chromedriver_path=chromedriver_path)
 
     try:
-        for i in range(actions):
-            logger.info("Action %d/%d: open random article", i + 1, actions)
+        for i in range(pages):
+            logger.info("Page %d/%d: open random article", i + 1, pages)
             driver.get(random_url)
 
             time.sleep(rand_range(behavior.page_load_wait_s))
@@ -177,8 +177,9 @@ def parse_args() -> argparse.Namespace:
     # Core capture options.
     parser.add_argument("-i", "--interface", default="enp0s8", help="Network interface to sniff (e.g., enp0s8)")
     parser.add_argument("--filter", default="udp port 1194", help="BPF filter (default: 'udp port 1194')")
-    parser.add_argument("-n", "--cycles", type=int, default=1, help="Number of capture/browse cycles (default: 1)")
-    parser.add_argument("-a", "--actions", type=int, default=10, help="Random pages per cycle (default: 10)")
+    parser.add_argument("-c", "--cycles", type=int, default=1, help="Number of capture/browse cycles (default: 1)")
+    parser.add_argument("-p", "--pages", type=int, default=10, help="Random Wikipedia pages per cycle (default: 10)")
+
 
     # Output naming.
     parser.add_argument("--outdir", default="capturas", help="Output directory for PCAP files")
@@ -242,7 +243,7 @@ def main() -> None:
             time.sleep(2)
 
             simulate_wikipedia(
-                actions=args.actions,
+                pages=args.pages,
                 behavior=behavior,
                 headless=args.headless,
                 chromedriver_path=args.chromedriver_path,
